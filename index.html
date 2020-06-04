@@ -72,6 +72,8 @@
             .setTitle( 'Fourier transform visualization' )
         
         const fourierSquareWave = ( k, x ) => {
+            // https://en.wikipedia.org/wiki/Square_wave#Fourier_analysis
+            // Chapter: "Fourier Analysis"
             const f = 1 / ( 2 * Math.PI )
             let sum = 0
             for ( let i = 1; i <= k; i ++ ) {
