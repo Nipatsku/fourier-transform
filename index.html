@@ -14,15 +14,19 @@
             overflow: hidden;
         }
         .content {
-            height: calc( 100vh - 40px );
+            height: calc( 100vh );
         }
-
+        .slider-container {
+            position: absolute;
+            top: 0
+        }
         #slider-value {
             margin-left: 10px;
             font-size: 2em;
+            color: white;
         }
         #slider {
-            width: 500px;
+            width: 20vw;
         }
     </style>
 </head>
@@ -32,8 +36,8 @@
     <div id="target" class="content"></div>
 
     <div class="slider-container">
-        <span id="slider-value">k = 1</span>
         <input type="range" min="1" max="1000" value="1" class="slider" id="slider">
+        <span id="slider-value">k = 1</span>
     </div>
 
     <!--IIFE assembly (lcjs.iife.js) is a standalone JS file, 
