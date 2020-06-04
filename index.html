@@ -27,14 +27,24 @@
         .box .row.content {
             flex: 1 1 auto;
         }
+
+        #slider-value {
+            margin-left: 10px;
+        }
+        #slider {
+            width: 500px;
+        }
     </style>
 </head>
 
 <body class="box">
-    <h1 class="row header">LightningChart<sup>&#174;</sup> JS in HTML page</h1>
-
     <!-- Create div to render the chart into-->
     <div id="target" class="row content"></div>
+
+    <div class="slider-container">
+        <span id="slider-value">k = 1</span>
+        <input type="range" min="1" max="1000" value="1" class="slider" id="slider">
+    </div>
 
     <!--IIFE assembly (lcjs.iife.js) is a standalone JS file, 
       which does not need any build tools, 
@@ -49,7 +59,8 @@
 
         // Extract required parts from LightningChartJS.
         const {
-            lightningChart
+            lightningChart,
+            DataPatterns
         } = lcjs //Note: @arction/lcjs is not needed here, when using IIFE assembly
 
         // Create a XY Chart.
@@ -58,20 +69,51 @@
             // Chart's size will automatically adjust to div's size. 
             containerId: 'target'
         })
-            .setTitle('My first chart') // Set chart title
+            .setTitle( 'Fourier transform visualization' )
+        
+        const fourierSquareWave = ( k, x ) => {
+            const f = 1 / ( 2 * Math.PI )
+            let sum = 0
+            for ( let i = 1; i <= k; i ++ ) {
+                sum += Math.sin( 2 * Math.PI * ( 2 * i - 1 ) * f * x ) / ( 2 * i - 1 )
+            }
+            return sum * ( 4 / Math.PI )
+        }
 
-        const data = [
-            { x: 0, y: 1.52 },
-            { x: 1, y: 1.56 },
-            { x: 2, y: 1.42 },
-            { x: 3, y: 1.85 },
-            { x: 4, y: 1.62 }
-        ]
+        let k = 1
+        const xStart = 0
+        const xEnd = 6 * Math.PI
+        const resolution = 1000
 
-        // Add a line series.
-        const lineSeries = chart.addLineSeries()
-            .setName('My data')
-            .add(data)
+        const refresh = () => {
+            const points = []
+            for ( let x = xStart; x <= xEnd; x += ( xEnd - xStart ) / resolution ) {
+                const y = fourierSquareWave( k, x )
+                points.push({ x, y })
+            }
+            series
+                .clear()
+                .add( points )
+        }
+        const series = chart.addLineSeries({ dataPattern: DataPatterns.horizontalProgressive })
+        refresh()
+
+
+
+        const slider = document.getElementById( 'slider' )
+        const sliderValue = document.getElementById( 'slider-value' )
+        slider.addEventListener( 'input', ( e ) => {
+            const value = e.target.value
+            const newK = Math.min( Math.max( Math.round(
+                Math.pow( value * 0.01, 3 )
+            ), 1 ), 2000)
+            if ( newK !== k ) {
+                k = newK
+                refresh()
+                sliderValue.innerHTML = `k = ${ k }`
+            }
+        } )
+
     </script>
 </body>
 
