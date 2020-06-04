@@ -90,8 +90,13 @@
             series
                 .clear()
                 .add( points )
+                .setStrokeStyle( solidLine => solidLine
+                    .setThickness( Math.max( 10 - Math.round( Math.pow( k, 0.8 ) ), 1 ) )
+                )
         }
-        const series = chart.addLineSeries({ dataPattern: DataPatterns.horizontalProgressive })
+        const series = chart.addLineSeries({
+            // dataPattern: DataPatterns.horizontalProgressive
+        })
         refresh()
 
 
