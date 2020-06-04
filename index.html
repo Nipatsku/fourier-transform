@@ -10,24 +10,11 @@
     <style>
         html,
         body {
-            height: -moz-calc(100vh - 0px);
-            height: -webkit-calc(100vh - 0px);
-            height: calc(100vh - 0px);
             margin: 0;
+            overflow: hidden;
         }
-
-        .box {
-            display: flex;
-            flex-flow: column;
-            height: 100%;
-        }
-
-        .box .row.header {
-            flex: 0 1 auto;
-        }
-
-        .box .row.content {
-            flex: 1 1 auto;
+        .content {
+            height: calc( 100vh - 40px );
         }
 
         #slider-value {
@@ -42,7 +29,7 @@
 
 <body class="box">
     <!-- Create div to render the chart into-->
-    <div id="target" class="row content"></div>
+    <div id="target" class="content"></div>
 
     <div class="slider-container">
         <span id="slider-value">k = 1</span>
